@@ -1,0 +1,7 @@
+from nltk.corpus import stopwords
+import re
+
+def remove_stopwords_from_string(string1):
+    pattern = re.compile(r'\b(' + r'|'.join(stopwords.words('english')) + r')\b\s*') #compiling all stopwords.
+    string2 = pattern.sub('', string1) #replacing the occurrences of stopwords in string1
+    return string2
