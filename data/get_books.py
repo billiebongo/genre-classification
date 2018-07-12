@@ -1,9 +1,9 @@
 from data.find_book import get_gr
-from data.scrape_books import open_isbn_file
+from data.isbn_file_handler import open_isbn_file
 import time
 import unicodecsv as csv
 from data.timeout import timeout
-
+from data.database_commands import insert_book
 """
 call API(GR, GBook, NLB) and store in database: book_title, authors, description(300), cover (can be null), pub_year, src
 genre
@@ -12,10 +12,10 @@ genre
 
 """
 
-
+TIMEOUT = 15
 
 def store_books_in_csv(bks):
-    """ finish scraping and put in dictionary then create csv"""
+    """ finish scraping a list of books and put in dictionary then create csv"""
 
     with open('books.csv', 'wb') as output_file:
         dict_writer = csv.DictWriter(output_file, keys)
@@ -23,20 +23,26 @@ def store_books_in_csv(bks):
         dict_writer.writerows(bks)
     return
 
-@timeout(12)
-def call_api(isbn):
+@timeout(TIMEOUT)
+def retrieve_book(isbn):
+    """
+    wrapper function for timing out actlly
+    """
+
     return get_gr(isbn)
 
 
 def get_books():
-    # create text files of 1000 isbns. do batch by batch.
+    """
+    return list, bks, of dictionaries
+    """
     isbn_list = open_isbn_file()[:5000]
-    bks = []
+
     i, j, t = 0, 0, 0 # i: valid, j: invalid, t: timeout count
     for isbn in isbn_list:
         print("Trying isbn: {}".format(isbn))
         try:
-            bk=call_api(isbn)
+            bk=retrieve_book(isbn)
         except:
             print("timeout likely {}".format(str(isbn)))
             t+=1
@@ -44,16 +50,17 @@ def get_books():
         time.sleep(1) # might be enough for not being banned
 
         if not bk:
-            j+=1
+            j += 1 #book not found
         else:
-            i += 1
-            #bks.append(bk) for csv method
-            store_book(bk)
+            i += 1 # book found
+            insert_book(bk)
 
         print("i: {} j: {} t: {}".format(str(i), str(j), str(t)))
 
 
-    return bks
+    return
 
-#bks=get_books()
+if __name__ == '__main__':
+
+    get_books()
 #store_books_in_csv(bks)

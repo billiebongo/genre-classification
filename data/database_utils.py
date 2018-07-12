@@ -7,12 +7,13 @@
 import mysql.connector
 from mysql.connector import Error
 
+DATABASE_NAME = 'genre_nlp'
 
 def connect():
     """ Connect to MySQL database """
     try:
         conn = mysql.connector.connect(host='localhost',
-                                       database='genre_nlp',
+                                       database= DATABASE_NAME,
                                        user='root',
                                        password='password')
         print(conn.is_connected())
@@ -29,4 +30,3 @@ def connect():
 if __name__ == '__main__':
     connect()
 
-#class Book(object):

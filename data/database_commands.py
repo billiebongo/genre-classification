@@ -13,6 +13,12 @@ def query_db(query):
     conn.close()
     return rows
 
+def replace_inverted_comma(s):
+    print(s)
+    s=s.replace("'", "\\")
+    print(s)
+    return s
+
 
 def iter_row(cursor, size=10):
     while True:
@@ -84,14 +90,21 @@ def update_book(book_id, title):
         cursor.close()
         conn.close()
 
-def insert_book(data_list):
+def insert_book(bk):
     #query = "INSERT INTO books(title,isbn) " \
      #       "VALUES(%s,%s)"
     #args = (title, isbn)
+    #bk["description"] bk["book_title"] bk["authors"]
+
+    if len(bk["description"])>1000:
+        bk["description"] = bk["description"][:1000]
+
+    data_list = [ replace_inverted_comma(bk["book_title"]), replace_inverted_comma(bk["authors"]), bk["description"], replace_inverted_comma(bk["cover"]), bk["pub_year"], bk["src"], bk["genre"]]
+
     try:
         values = ["'%s'" % v for v in data_list]
         tail=", ".join(values)+");"
-        query = "INSERT INTO book(book_title, authors, description, cover, pub_year, src, genre) VALUES ("+tail
+        query = "INSERT INTO book(book_title, authors,description, cover, pub_year, src, genre) VALUES ("+tail
         print(query)
         rows = query_db(query)
         for row in rows:
@@ -106,6 +119,7 @@ def insert_book(data_list):
         #    print('last insert id not found')
     except Error as e:
         print(e)
+    return
 
 
 
@@ -125,7 +139,7 @@ def delete_books(book_ids):
         cursor.execute(query)#, book_ids)
         print("sss")
         print(cursor)
-        # accept the change
+        # accept the change`
         conn.commit()
 
     except Error as error:
@@ -137,17 +151,9 @@ def delete_books(book_ids):
         conn.close()
 
 
-def store_book(bk):
-    insert_book([bk["book_title"], bk["authors"], bk["description"], bk["cover"], bk["pub_year"], bk["src"], bk["genre"]])
-
-
 if __name__ == '__main__':
-    #insert_book('A Sudden Light', '9781439187036')
-    #r=query_with_fetchone()
-    #print(type(r))
-    #books = [('Harry Potter And The Order Of The Phoenix', '9780439358071'),
-    #         ('Gone with the Wind', '9780446675536'),
-    #         ('Pride and Prejudice (Modern Library Classics)', '9780679783268')]
-    #delete_books([3,5,4])
     bk = {"book_title":"derp", "authors":"lek", "description":"d", "cover":"meh","pub_year":6789, "src":"gr", "genre":"art"}
+
+
+
     store_book(bk)

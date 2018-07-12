@@ -5,9 +5,12 @@
 
 # store data iin mySQL
 
+START_ISBN = 1250107814
+END_ISBN = 1250110014
 
+#200
 
-
+ISBN_LIST_FILE = 'isbn_list.txt'
 
 def check_digit(number):
     try:
@@ -40,11 +43,12 @@ def check_digit(number):
 
 def write_to_file(validated_isbn):
     print(validated_isbn)
-    with open('isbn_list.txt', 'w') as f:
+    with open( ISBN_LIST_FILE, 'w') as f:
         f.write(','.join(validated_isbn))
     f.close()
+
 def open_isbn_file():
-    with open('isbn_list.txt', 'r') as f:
+    with open( ISBN_LIST_FILE, 'r') as f:
         line=f.readlines()
     print(line)
     list_of_isbn = line[0].split(",")
@@ -53,7 +57,7 @@ def open_isbn_file():
 def generate_isbn_list():
     """write ISBNs to text file"""
     validated_isbn = []
-    for i in range(1250107814, 1250740000):
+    for i in range(START_ISBN, END_ISBN):
         if check_digit(i):
             validated_isbn.append(str(i))
         else:
@@ -61,11 +65,6 @@ def generate_isbn_list():
 
     write_to_file(validated_isbn)
 
-
-
-def call_books_api():
-    for isbn in isbns:
-        book = find_book(isbn)
 
 
 

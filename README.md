@@ -29,6 +29,6 @@ sudo apt-get install python-pip python-dev libmysqlclient-dev
 sudo systemctl status mysql
 pip3 install configparser
 ALTER TABLE book MODIFY COLUMN ID int NOT NULL AUTO_INCREMENT PRIMARY KEY (ID);
-
+CREATE TABLE book ( book_title varchar(100), authors varchar(50), cover varchar(70), pub_year int, src varchar(2), genre varchar(20), description varchar(1000));
 
 #genre-classification

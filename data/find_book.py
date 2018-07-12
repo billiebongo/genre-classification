@@ -22,7 +22,7 @@ GENRE_LIST = ["children", "fantasy", "young-adult", "self-help", "religion", "ma
                                                                                                 "art", "cookbook",
               "drama", "adventure", "biology", "physics", "fiction", "non-fiction"]
 
-NO_COVER = ""
+NO_COVER = "NO_COVER"
 
 
 def clean_html(raw_html):
@@ -71,9 +71,9 @@ def get_gbook(isbn):
             if (len(isbn13) > 0):
                 book['isbn13'] = isbn13[0]['identifier']
         if "title" in result:
-            book['title'] = result['title']
+            book['book_title'] = result['title']
         if "subtitle" in result:
-            book['title'] += ': ' + result['subtitle']
+            book['book_title'] += ': ' + result['subtitle']
         if "authors" in result:
             book['authors'] = result['authors']  # this is a list
         if "description" in result:
@@ -125,7 +125,7 @@ def get_gr(isbn):
 
         book['id'] = gr._book_dict['id']  # GR BOOK SHOULD HAVE ID
         book['src'] = "gr"
-        book['title'] = gr.title
+        book['book_title'] = gr.title
         if gr.isbn:
             print("gr give isbn")
             book['isbn'] = gr.isbn
@@ -135,10 +135,8 @@ def get_gr(isbn):
             else:
                 book['isbn'] = -1
         if gr.isbn13:
-            print("gr didnt give isbn13")
             book['isbn13'] = gr.isbn13
         else:
-            print("isbn13 not given")
             if len(isbn) == 13:
                 book['isbn13'] = isbn
             else:
@@ -148,7 +146,7 @@ def get_gr(isbn):
         #    book['cover'] = get_gbook_photo(isbn)
         for items in gr.authors:
             print(items)
-        book['authors'] = str(gr.authors)[1:-1].split(', ')
+        book['authors'] = str(gr.authors)#[1:-1].split(', ')
         book['pub_year'] = gr.publication_date[2]
         if gr.description:
             book['description'] = clean_html(gr.description.replace('\n', '').replace('<br />', '\n'))
@@ -183,6 +181,7 @@ def get_gr(isbn):
         return None
     except (KeyError) as e:  # if gr dies
         print("Data received is lacking something")
+
         return None
 
     print("Book API successful!")
