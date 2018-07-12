@@ -1,3 +1,2 @@
-numpy
-mysql
-tensorflow
+goodreads==0.3.2
+mysql-connector-python-rf==2.2.2
