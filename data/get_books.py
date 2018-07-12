@@ -1,9 +1,12 @@
-from data.find_book import get_gr
-from data.isbn_file_handler import open_isbn_file
+import os
+print(os.listdir())
+
+from find_book import get_gr
+from isbn_file_handler import open_isbn_file
 import time
 import unicodecsv as csv
-from data.timeout import timeout
-from data.database_commands import insert_book
+from timeout import timeout
+from database_commands import insert_book
 """
 call API(GR, GBook, NLB) and store in database: book_title, authors, description(300), cover (can be null), pub_year, src
 genre
