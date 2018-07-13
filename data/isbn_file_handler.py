@@ -5,13 +5,20 @@
 
 # store data iin mySQL
 
-START_ISBN = 1250107814
-END_ISBN = 1250110014
+#First Run
+#START_ISBN = 1250107814
+#END_ISBN =   1250110014
+
+
+START_ISBN = 330508113 #first digit is actually a zero
+END_ISBN = 330608113
+
 
 #200
 
 ISBN_LIST_FILE = 'isbn_list.txt'
 
+#currently fixed for 9 digits
 def check_digit(number):
     try:
         numberreal = number
@@ -22,14 +29,21 @@ def check_digit(number):
         number = int(number)
         number = str(numberzero)
         print("The ISBN Number Entered is", numberreal)
-        num = int(number[0]) * 10 + int(number[1]) * 9 + int(number[2]) * 8 + int(number[3]) * 7 + int(number[4]) * 6 + int(number[5]) * 5 + int(number[6]) * 4 + int(number[7]) * 3 + int(number[8]) * 2
+        if len(number)==10:
+            num = int(number[0]) * 10 + int(number[1]) * 9 + int(number[2]) * 8 + int(number[3]) * 7 + int(number[4]) * 6 + int(number[5]) * 5 + int(number[6]) * 4 + int(number[7]) * 3 + int(number[8]) * 2
+        else:
+            num = int(number[0]) * 9 + int(number[1]) * 8 + int(number[2]) * 7 + int(number[3]) * 6 + int(number[4]) * 5 + int(number[5]) * 4 + int(number[6]) * 3 + int(number[7]) * 2
+
         num = num%11
         checknum = 11 - num
 
-        print("The Check Digit Should Be", checknum, "and the one in the code provided was", number[9])
-        if int(checknum) == int(number[9]):
-            print("The Check Digit Provided Is Correct")
-            return True
+        if len(number)==10:
+            if int(checknum) == int(number[9]):
+                return True
+        elif len(number)==9:
+            if int(checknum) == int(number[8]):
+                return True
+
         else:
             print("The Check Digit Provided Is Incorrect")
             return False
