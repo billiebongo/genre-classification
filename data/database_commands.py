@@ -14,9 +14,7 @@ def query_db(query):
     return rows
 
 def replace_inverted_comma(s):
-    print(s)
-    s=s.replace("'", "\\")
-    print(s)
+    s=s.replace("'", "\\'")
     return s
 
 
@@ -99,7 +97,7 @@ def insert_book(bk):
     if len(bk["description"])>1000:
         bk["description"] = bk["description"][:1000]
 
-    data_list = [ replace_inverted_comma(bk["book_title"]), replace_inverted_comma(bk["authors"]), bk["description"], replace_inverted_comma(bk["cover"]), bk["pub_year"], bk["src"], bk["genre"]]
+    data_list = [ replace_inverted_comma(bk["book_title"]), replace_inverted_comma(bk["authors"]), replace_inverted_comma(bk["description"]), replace_inverted_comma(bk["cover"]), bk["pub_year"], bk["src"], bk["genre"]]
 
     try:
         values = ["'%s'" % v for v in data_list]
@@ -152,8 +150,8 @@ def delete_books(book_ids):
 
 
 if __name__ == '__main__':
-    bk = {"book_title":"derp", "authors":"lek", "description":"d", "cover":"meh","pub_year":6789, "src":"gr", "genre":"art"}
+    #bk = {"book_title":"derp", "authors":"lek", "description":"d", "cover":"meh","pub_year":6789, "src":"gr", "genre":"art"}
 
+    print(replace_inverted_comma("i'm fine"))
 
-
-    store_book(bk)
+    #store_book(bk)

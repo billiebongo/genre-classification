@@ -14,8 +14,9 @@ def connect():
     try:
         conn = mysql.connector.connect(host='localhost',
                                        database= DATABASE_NAME,
-                                       user='root',
+                                       user='root',port = 3306,
                                        password='password')
+
         print(conn.is_connected())
         if conn.is_connected():
             print('Connected to MySQL database')

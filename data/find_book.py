@@ -34,7 +34,6 @@ def clean_html(raw_html):
 def get_genre(pop_shelves):
     print(pop_shelves)
     for pop in pop_shelves:
-        print(pop)
         if (type(pop._shelf_dict) == 'string'):
             return "nil"
         if ((str(pop) == "to-read") or (str(pop) == "books-i-own") or (str(pop) == "currently-reading") or (
@@ -142,8 +141,7 @@ def get_gr(isbn):
             else:
                 book['isbn13'] = -1
         book['cover'] = 'l'.join(gr.image_url.rsplit('m', 1))
-        #if '/nophoto/' in book['cover']:
-        #    book['cover'] = get_gbook_photo(isbn)
+
         for items in gr.authors:
             print(items)
         book['authors'] = str(gr.authors)#[1:-1].split(', ')
@@ -177,14 +175,14 @@ def get_gr(isbn):
         if book != None:
             book['src'] = "gb"
             return book
-        print("BOTH GR AND GBOOKS DONT HAVE ISBN")
+
         return None
     except (KeyError) as e:  # if gr dies
         print("Data received is lacking something")
+        print(e)
 
         return None
 
-    print("Book API successful!")
     return book
 
 if __name__ == "__main__":

@@ -56,7 +56,10 @@ def get_books():
             j += 1 #book not found
         else:
             i += 1 # book found
-            insert_book(bk)
+            try:
+                insert_book(bk)
+            except Exception as e:
+                print(e)
 
         print("i: {} j: {} t: {}".format(str(i), str(j), str(t)))
 
