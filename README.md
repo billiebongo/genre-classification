@@ -1,4 +1,13 @@
+Status: commented gbooks API
+Third run
+used amyyytannn creds
+
+
+2bd: set global variable to switch off from gbooks
+
 2BD:
+
+
 
 check results and continue for 10000 more books
 
@@ -34,7 +43,7 @@ sudo systemctl status mysql
 pip3 install configparser
 ALTER TABLE book MODIFY COLUMN ID int NOT NULL AUTO_INCREMENT PRIMARY KEY (ID);
 CREATE TABLE book ( book_title varchar(100), authors varchar(50), cover varchar(70), pub_year int, src varchar(2), genre varchar(20), description varchar(1000));
-
+https://stackoverflow.com/questions/28973453/mysql2error-incorrect-string-value-xe2-x80-xa8-x09
 #genre-classification
 
 https://stackoverflow.com/questions/41645309/mysql-error-access-denied-for-user-rootlocalhost

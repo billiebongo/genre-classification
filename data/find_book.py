@@ -183,12 +183,12 @@ def get_gr(isbn):
         """
         print("goodreads exception error")
 
-        book = get_gbook(isbn)
+        #book = get_gbook(isbn)
 
-        if book != None:
-            print("here1")
-            book['src'] = "gb"
-            return book
+        #if book != None:
+        #    print("here1")
+        #    book['src'] = "gb"
+        #    return book
 
         return None
     except (KeyError) as e:  # if gr dies
