@@ -8,7 +8,8 @@ from goodreads.request import GoodreadsRequestException
 GOODREADS_API_KEY = "P6LBODEZy9wK0K8RnlXzA"
 GOODREADS_API_SECRET = "xNOuHajksU3PCGNGXs5TIiiZZynFOAjgxHiMEsywY"
 
-GBOOKS_API_TOKEN = "AIzaSyDrl351Oxpu2r79QlnsWePkzrBg1re19Zw"
+#GBOOKS_API_TOKEN = "AIzaSyDrl351Oxpu2r79QlnsWePkzrBg1re19Zw"
+GBOOKS_API_TOKEN = "AIzaSyCRsJ0Zz-Egz6hcO90TZmRfIaoU5tHigEg"
 
 
 gc = client.GoodreadsClient(GOODREADS_API_KEY, GOODREADS_API_SECRET)
@@ -52,47 +53,58 @@ def get_gbook(isbn):
         'key': GBOOKS_API_TOKEN,
         'q': 'isbn:' + isbn
     }
-    r = requests.get(BASE_URL, params=payload)
-    r.raise_for_status()
-    result = r.json()
-    if (result['totalItems'] != 1):
+    try:
+        r = requests.get(BASE_URL, params=payload)
+        r.raise_for_status()
+        result = r.json()
+        if (result['totalItems'] != 1):
+            return None
+        book = {}
+        if "totalItems" in result and result['totalItems'] == 1:
+
+            result = result['items'][0]['volumeInfo']
+
+            if "industryIdentifiers" in result:
+                isbn10 = [i for i in result['industryIdentifiers'] if i['type'] == 'ISBN_10']
+                if len(isbn10) > 0:
+                    book['isbn'] = isbn10[0]['identifier']
+                isbn13 = [i for i in result['industryIdentifiers'] if i['type'] == 'ISBN_13']
+                if (len(isbn13) > 0):
+                    book['isbn13'] = isbn13[0]['identifier']
+            if "title" in result:
+                book['book_title'] = result['title']
+            if "subtitle" in result:
+                book['book_title'] += ': ' + result['subtitle']
+            if "authors" in result:
+                book['authors'] = result['authors']  # this is a list
+            if "description" in result:
+                book['description'] = result['description']
+            else:
+                book['description'] = ""
+            if "publishedDate" in result:
+                book['pub_year'] = result['publishedDate'][:4]
+            else:
+                book['pub_year'] = ""
+            print(result)
+            if "imageLinks" in result:
+                print(result['imageLinks'])
+                book['cover'] = result['imageLinks']['thumbnail']
+                return result['imageLinks']['thumbnail']
+            else:
+                book['cover'] = NO_COVER
+
+        # totalitems != 1
+        return book
+
+    except requests.exceptions.RequestException as e:
+        print(e)
         return None
-    book = {}
-    if "totalItems" in result and result['totalItems'] == 1:
 
-        result = result['items'][0]['volumeInfo']
-
-        if "industryIdentifiers" in result:
-            isbn10 = [i for i in result['industryIdentifiers'] if i['type'] == 'ISBN_10']
-            if len(isbn10) > 0:
-                book['isbn'] = isbn10[0]['identifier']
-            isbn13 = [i for i in result['industryIdentifiers'] if i['type'] == 'ISBN_13']
-            if (len(isbn13) > 0):
-                book['isbn13'] = isbn13[0]['identifier']
-        if "title" in result:
-            book['book_title'] = result['title']
-        if "subtitle" in result:
-            book['book_title'] += ': ' + result['subtitle']
-        if "authors" in result:
-            book['authors'] = result['authors']  # this is a list
-        if "description" in result:
-            book['description'] = result['description']
-        else:
-            book['description'] = ""
-        if "publishedDate" in result:
-            book['pub_year'] = result['publishedDate'][:4]
-        else:
-            book['pub_year'] = ""
-        print(result)
-        if "imageLinks" in result:
-            print(result['imageLinks'])
-            book['cover'] = result['imageLinks']['thumbnail']
-            return result['imageLinks']['thumbnail']
-        else:
-            book['cover'] = NO_COVER
-
-    # totalitems != 1
-    return book
+    except Exception as e:
+        print(e)
+        print(type(e))
+        return None
+    return None
 
 """
 def get_gbook_photo(isbn):
@@ -172,7 +184,9 @@ def get_gr(isbn):
         print("goodreads exception error")
 
         book = get_gbook(isbn)
+
         if book != None:
+            print("here1")
             book['src'] = "gb"
             return book
 

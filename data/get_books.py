@@ -48,7 +48,8 @@ def get_books():
 
         try:
             bk=retrieve_book(isbn)
-        except:
+        except Exception as e:
+            print(e)
             print("timeout likely {}".format(str(isbn)))
             t+=1
             continue
@@ -69,6 +70,7 @@ def get_books():
     return
 
 if __name__ == '__main__':
+    print("============Run 3============")
 
     get_books()
 #store_books_in_csv(bks)

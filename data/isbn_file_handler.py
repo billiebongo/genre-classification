@@ -9,9 +9,12 @@
 #START_ISBN = 1250107814
 #END_ISBN =   1250110014
 
+#Second Run
+#START_ISBN = 330508113 #first digit is actually a zero
+#END_ISBN =   330608113
 
-START_ISBN = 330508113 #first digit is actually a zero
-END_ISBN = 330608113
+START_ISBN = 552167835
+END_ISBN = 552267835
 
 
 #200
@@ -40,7 +43,7 @@ def check_digit(number):
         if len(number)==10:
             if int(checknum) == int(number[9]):
                 return True
-        elif len(number)==9:
+        elif len(number)==9: # to cater to isbn that starts with one '0'
             if int(checknum) == int(number[8]):
                 return True
 
