@@ -15,7 +15,7 @@
 
 #THIRS RUN
 #START_ISBN = 552167835
-#END_ISBN = 552267835
+#END_ISBN =   552267835
 
 
 #fourth run
@@ -72,7 +72,6 @@ def write_to_file(validated_isbn):
 def open_isbn_file():
     with open( ISBN_LIST_FILE, 'r') as f:
         line=f.readlines()
-    print(line)
     list_of_isbn = line[0].split(",")
     return list_of_isbn
 
