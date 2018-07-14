@@ -9,16 +9,16 @@
 #START_ISBN = 1250107814
 #END_ISBN =   1250110014
 
-#Second Run
+#Second Run (actlly first 5000)
 #START_ISBN = 330508113 #first digit is actually a zero
 #END_ISBN =   330608113
 
-#THIRS RUN
+#THIRS RUN (first 5000 )
 #START_ISBN = 552167835
 #END_ISBN =   552267835
 
 
-#fourth run
+#fourth run (first 5000)
 #START_ISBN = 765350386
 #END_ISBN =   765750386
 

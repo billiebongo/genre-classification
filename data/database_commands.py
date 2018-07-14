@@ -97,6 +97,12 @@ def insert_book(bk):
     if len(bk["description"])>1000:
         bk["description"] = bk["description"][:1000]
 
+    if bk["pub_year"] == None:
+        print("NONE!")
+        bk["pub_year"] = 1
+
+
+
     data_list = [ replace_inverted_comma(bk["book_title"]), replace_inverted_comma(bk["authors"]), replace_inverted_comma(bk["description"]), replace_inverted_comma(bk["cover"]), bk["pub_year"], bk["src"], bk["genre"]]
 
     try:

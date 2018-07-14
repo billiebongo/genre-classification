@@ -39,9 +39,10 @@ def get_books():
     """
     return list, bks, of dictionaries
     """
-    isbn_list = open_isbn_file()[:5000]
+    isbn_list = open_isbn_file()[5000:]
 
     i, j, t = 0, 0, 0 # i: valid, j: invalid, t: timeout count
+
     for isbn in isbn_list:
         isbn = "0"+str(isbn)
         print("Trying isbn: {}".format(isbn))

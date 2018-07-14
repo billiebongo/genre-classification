@@ -200,7 +200,7 @@ def get_gr(isbn):
     return book
 
 if __name__ == "__main__":
-    print(get_gr("0879510773"))
+    print(get_gr("0739405756"))
 
 """
 Test cases:
