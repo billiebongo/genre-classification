@@ -1,3 +1,9 @@
+2bd: get rid of the :5000
+
+
+
+
+
 Status: commented gbooks API
 Third run
 used amyyytannn creds
