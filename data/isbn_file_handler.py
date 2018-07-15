@@ -25,8 +25,12 @@
 
 
 #fifth run
-START_ISBN = 739382696
-END_ISBN =  739982696
+#START_ISBN = 739382696
+#END_ISBN =   739982696
+
+#sixth run (merge 2 ranges)
+START_ISBN = 439508184 #1505577128
+END_ISBN =  439808184 #1505977128
 
 #200
 
@@ -40,14 +44,17 @@ def check_digit(number):
         numberzero = number
         #this makes sure python doesnt drop the first 0 if it is at the start
         number = number
-        number = int(number)
+        #number = int(number)
         number = str(numberzero)
         print("The ISBN Number Entered is", numberreal)
         if len(number)==10:
             num = int(number[0]) * 10 + int(number[1]) * 9 + int(number[2]) * 8 + int(number[3]) * 7 + int(number[4]) * 6 + int(number[5]) * 5 + int(number[6]) * 4 + int(number[7]) * 3 + int(number[8]) * 2
-        else:
+        elif len(number)==9:
             num = int(number[0]) * 9 + int(number[1]) * 8 + int(number[2]) * 7 + int(number[3]) * 6 + int(number[4]) * 5 + int(number[5]) * 4 + int(number[6]) * 3 + int(number[7]) * 2
-
+        elif len(number) == 8:
+            num = int(number[0]) * 8 + int(number[1]) * 7 + int(number[2]) * 6 + int(number[3]) * 5 + int(number[4]) * 4 + int(number[5]) * 3 + int(number[6]) * 2
+        else:
+            return
         num = num%11
         checknum = 11 - num
 
@@ -57,7 +64,9 @@ def check_digit(number):
         elif len(number)==9: # to cater to isbn that starts with one '0'
             if int(checknum) == int(number[8]):
                 return True
-
+        elif len(number)==8: # to cater to isbn that starts with one '0'
+            if int(checknum) == int(number[7]):
+                return True
         else:
             print("The Check Digit Provided Is Incorrect")
             return False

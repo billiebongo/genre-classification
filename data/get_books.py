@@ -39,19 +39,26 @@ def get_books():
     """
     return list, bks, of dictionaries
     """
-    isbn_list = open_isbn_file()[5000:]
+    isbn_list = open_isbn_file()
 
     i, j, t = 0, 0, 0 # i: valid, j: invalid, t: timeout count
 
     for isbn in isbn_list:
-        isbn = "0"+str(isbn)
+        if len(str(isbn))==8:
+            isbn = "00"+str(isbn)
+        elif len(str(isbn)) == 9:
+            isbn = "0"+str(isbn)
+        elif len(str(isbn)) == 10:
+            isbn=str(isbn)
+        else:
+            raise
         print("Trying isbn: {}".format(isbn))
 
         try:
             bk=retrieve_book(isbn)
         except Exception as e:
             print(e)
-            print("timeout likely {}".format(str(isbn)))
+            print("timeout likely {}".format(isbn))
             t+=1
             continue
         time.sleep(1) # might be enough for not being banned
@@ -71,7 +78,7 @@ def get_books():
     return
 
 if __name__ == '__main__':
-    print("============Run 3============")
+    print("============Run 6============")
 
     get_books()
 #store_books_in_csv(bks)

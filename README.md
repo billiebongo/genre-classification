@@ -1,4 +1,4 @@
-2bd: get rid of the :5000
+2bd:
 
 
 
@@ -52,6 +52,9 @@ CREATE TABLE book ( book_title varchar(100), authors varchar(50), cover varchar(
 https://stackoverflow.com/questions/28973453/mysql2error-incorrect-string-value-xe2-x80-xa8-x09
 #genre-classification
 
+from local machine
+sudo scp root@128.199.109.98:/root/dbs/book_1507.tar.gz ~/Desktop
+https://www.itworld.com/article/2833078/it-management/3-ways-to-import-and-export-a-mysql-database.html
 https://stackoverflow.com/questions/41645309/mysql-error-access-denied-for-user-rootlocalhost
 https://stackoverflow.com/questions/40942061/changing-version-of-python-when-using-nohup
 https://stackoverflow.com/questions/42662104/how-to-install-pip-for-python-3-6-on-ubuntu-16-10
