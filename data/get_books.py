@@ -4,7 +4,6 @@ print(os.listdir())
 from find_book import get_gr
 from isbn_file_handler import open_isbn_file
 import time
-import unicodecsv as csv
 from timeout import timeout
 from database_commands import insert_book
 """
@@ -16,16 +15,16 @@ genre
 """
 
 TIMEOUT = 15
-
-def store_books_in_csv(bks):
-    """ finish scraping a list of books and put in dictionary then create csv"""
+"""
+#def store_books_in_csv(bks):
+#    finish scraping a list of books and put in dictionary then create csv
 
     with open('books.csv', 'wb') as output_file:
         dict_writer = csv.DictWriter(output_file, keys)
         dict_writer.writeheader()
         dict_writer.writerows(bks)
     return
-
+"""
 @timeout(TIMEOUT)
 def retrieve_book(isbn):
     """
@@ -81,4 +80,4 @@ if __name__ == '__main__':
     print("============Run 6============")
 
     get_books()
-#store_books_in_csv(bks)
+

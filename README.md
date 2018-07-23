@@ -1,8 +1,15 @@
 2bd:
+data set 1: set2.csv\
+data set 2: need to empty DB and run scraper w better genre allocator.
 
 
 
 
+
+check the set 2 csv for wrong column errors
+HAND LABEL SHIT.
+might have to empty database at the server and local before scraping new batch
+id 4869,5266 is not english
 
 Status: commented gbooks API
 Third run
@@ -43,6 +50,8 @@ http://cs229.stanford.edu/proj2015/127_report.pdf
 
 DAtabase commands:
 mysql -u root -p
+SELECT * INTO OUTFILE '/var/lib/mysql-files/33691.csv' FIELDS TERMINATED BY '\t' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' FROM book;
+
 sudo apt-get install python-pip python-dev libmysqlclient-dev
 
 sudo systemctl status mysql
@@ -57,5 +66,5 @@ sudo scp root@128.199.109.98:/root/dbs/book_1507.tar.gz ~/Desktop
 https://www.itworld.com/article/2833078/it-management/3-ways-to-import-and-export-a-mysql-database.html
 https://stackoverflow.com/questions/41645309/mysql-error-access-denied-for-user-rootlocalhost
 https://stackoverflow.com/questions/40942061/changing-version-of-python-when-using-nohup
-https://stackoverflow.com/questions/42662104/how-to-install-pip-for-python-3-6-on-ubuntu-16-10
+python3.6 -m pip install -r requirements.txt
 https://stackoverflow.com/questions/1673530/error-2003-hy000-cant-connect-to-mysql-server-on-127-0-0-1-111

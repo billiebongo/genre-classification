@@ -1,5 +1,6 @@
 from mysql.connector import MySQLConnection, Error
 from python_mysql_dbconfig import read_db_config
+import pandas as pd
 
 def query_db(query):
     dbconfig = read_db_config()
@@ -26,18 +27,40 @@ def iter_row(cursor, size=10):
         for row in rows:
             yield row
 
-def query_with_fetchone():
+def create_book_csv():
     try:
+        dbconfig = read_db_config()
+        conn = MySQLConnection(**dbconfig)
+        cursor = conn.cursor()
+        # Execute the SQL command
+        cursor.execute("SELECT * FROM book")
+        # Fetch all the rows in a list of lists.
+        ls=[]
+        results = cursor.fetchall()
+        c=0
+        for row in results:
+            new_record={}
 
-        query_db("SELECT * FROM books")
-        row = cursor.fetchone()
+            new_record['id']=row[0]
+            new_record['book_title'] = row[1]
+            new_record['authors'] = row[2]
+
+            new_record['cover'] = row[3]
+            new_record['pub_year'] = row[4]
+            new_record['src'] = row[5]
+            new_record['genre'] = row[6]
+            new_record['description'] = row[7]
+            print(new_record)
+            print(len(row))
+            ls.append(new_record)
+
+        df = pd.DataFrame(ls,columns=['id','book_title','authors',
+                                   'cover', 'pub_year','src','genre','description'])
+        df.to_csv('set2.csv')
 
         while row is not None:
-            print(row[0])
             row = cursor.fetchone()
 
-    except Error as e:
-        print(e)
 
     finally:
         cursor.close()
@@ -46,7 +69,7 @@ def query_with_fetchone():
 
 def query_with_fetchmany():
     try:
-        query_db("SELECT * FROM books")
+        query_db("SELECT book_title FROM book")
 
         for row in iter_row(cursor, 10):
             #row is type tuple
@@ -54,10 +77,7 @@ def query_with_fetchmany():
 
     except Error as e:
         print(e)
-
-    finally:
-        cursor.close()
-        conn.close()
+    return
 
 
 def update_book(book_id, title):
@@ -155,9 +175,13 @@ def delete_books(book_ids):
         conn.close()
 
 
+
+def convert_db_to_csv(db):
+    pass
+
 if __name__ == '__main__':
     #bk = {"book_title":"derp", "authors":"lek", "description":"d", "cover":"meh","pub_year":6789, "src":"gr", "genre":"art"}
 
-    print(replace_inverted_comma("i'm fine"))
-
+    #print(replace_inverted_comma("i'm fine"))
+    create_book_csv()
     #store_book(bk)

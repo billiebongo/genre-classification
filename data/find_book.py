@@ -17,9 +17,9 @@ gc = client.GoodreadsClient(GOODREADS_API_KEY, GOODREADS_API_SECRET)
 # get genre based on popular shelves of GR
 
 GENRE_LIST = ["children", "fantasy", "young-adult", "self-help", "religion", "math", "historical", "science", "health",
-              "comics", "travel", "horror", "economics", \
+              "comics", "travel", "horror", "economics", "science-fiction", "history", \
               "business", "religion", "romance", "psychology", "computer-science", "philosophy", "humour", "finance",
-              "mystery", "thriller", "chick-lit", "historical", "biography", "politics", "social-science", "entrepreneurship" \
+              "mystery", "thriller", "chick-lit",  "biography", "politics", "social-science", "entrepreneurship" \
                                                                                                 "art", "cookbook",
               "drama", "adventure", "biology", "physics", "fiction", "non-fiction"]
 
@@ -34,6 +34,7 @@ def clean_html(raw_html):
 
 def get_genre(pop_shelves):
     print(pop_shelves)
+    selected_genre = "nil"
     for pop in pop_shelves:
         if (type(pop._shelf_dict) == 'string'):
             return "nil"
@@ -42,10 +43,14 @@ def get_genre(pop_shelves):
             continue
         for g in GENRE_LIST:
             if (str(pop) == g):
-                print(g)
-                return g
-    return "nil"
+                selected_genre = g
+                if g == 'fiction' or g == 'non-fiction':
+                    break
+                else:
+                    return g
 
+    print("Selected: {}".format(selected_genre))
+    return selected_genre
 
 def get_gbook(isbn):
     BASE_URL = 'https://www.googleapis.com/books/v1/volumes'
