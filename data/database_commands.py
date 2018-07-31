@@ -56,7 +56,7 @@ def create_book_csv():
 
         df = pd.DataFrame(ls,columns=['id','book_title','authors',
                                    'cover', 'pub_year','src','genre','description'])
-        df.to_csv('set2.csv')
+        df.to_csv('set3.csv')
 
         while row is not None:
             row = cursor.fetchone()

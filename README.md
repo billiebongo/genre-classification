@@ -1,5 +1,9 @@
 2bd:
-data set 1: set2.csv\
+EDA, try out Naive bayes bag of words
+
+
+
+data set 1: set2.csv
 data set 2: need to empty DB and run scraper w better genre allocator.
 
 
@@ -11,15 +15,13 @@ HAND LABEL SHIT.
 might have to empty database at the server and local before scraping new batch
 id 4869,5266 is not english
 
-Status: commented gbooks API
-Third run
-used amyyytannn creds
+
 
 
 2bd: set global variable to switch off from gbooks
 
-2BD:
 
+ssh root@128.199.109.98
 
 
 check results and continue for 10000 more books
@@ -62,7 +64,8 @@ https://stackoverflow.com/questions/28973453/mysql2error-incorrect-string-value-
 #genre-classification
 
 from local machine
-sudo scp root@128.199.109.98:/root/dbs/book_1507.tar.gz ~/Desktop
+cd /var/lib/mysql-files/
+sudo scp root@128.199.109.98:/root/set3.tar.gz ~/Desktop
 https://www.itworld.com/article/2833078/it-management/3-ways-to-import-and-export-a-mysql-database.html
 https://stackoverflow.com/questions/41645309/mysql-error-access-denied-for-user-rootlocalhost
 https://stackoverflow.com/questions/40942061/changing-version-of-python-when-using-nohup

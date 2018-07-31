@@ -5,6 +5,8 @@ import requests, re
 from goodreads import client
 from goodreads.request import GoodreadsRequestException
 
+
+#amyyytannn creds
 GOODREADS_API_KEY = "P6LBODEZy9wK0K8RnlXzA"
 GOODREADS_API_SECRET = "xNOuHajksU3PCGNGXs5TIiiZZynFOAjgxHiMEsywY"
 
@@ -19,7 +21,7 @@ gc = client.GoodreadsClient(GOODREADS_API_KEY, GOODREADS_API_SECRET)
 GENRE_LIST = ["children", "fantasy", "young-adult", "self-help", "religion", "math", "historical", "science", "health",
               "comics", "travel", "horror", "economics", "science-fiction", "history", \
               "business", "religion", "romance", "psychology", "computer-science", "philosophy", "humour", "finance",
-              "mystery", "thriller", "chick-lit",  "biography", "politics", "social-science", "entrepreneurship" \
+              "mystery", "thriller", "chick-lit",  "biography", "politics", "social-science", "entrepreneurship", \
                                                                                                 "art", "cookbook",
               "drama", "adventure", "biology", "physics", "fiction", "non-fiction"]
 
@@ -205,7 +207,7 @@ def get_gr(isbn):
     return book
 
 if __name__ == "__main__":
-    print(get_gr("0739405756"))
+    print(get_gr("071483355X"))
 
 """
 Test cases:
