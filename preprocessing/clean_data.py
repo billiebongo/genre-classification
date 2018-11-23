@@ -3,6 +3,9 @@ from nltk.stem.snowball import SnowballStemmer
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
+import nltk
+nltk.download('stopwords')
+
 stop_words = stopwords.words('english')
 
 
@@ -25,13 +28,14 @@ def clean_description(description):
 		#porterstem
 		#print(words)
 		#stemmer2 = SnowballStemmer("english", ignore_stopwords=True)
-
+		print(words)
 		words = [wordnet_lemmatizer.lemmatize(w) for w in words]
 		stitched = " ".join(words)
-
+		print(stitched)
 	except Exception as e:
 		# empty after cleaning, err: expected string or bytes like object
-
+		print("issue")
+		print(e)
 		return ""
 	return stitched
 

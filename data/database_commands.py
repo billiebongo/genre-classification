@@ -2,6 +2,15 @@ from mysql.connector import MySQLConnection, Error
 from python_mysql_dbconfig import read_db_config
 import pandas as pd
 
+"""
+Store scraped data in database
+Functions:
+- query db basic info
+- insert a row into the data
+- query all rows and output a csv
+"""
+
+
 def query_db(query):
     dbconfig = read_db_config()
     conn = MySQLConnection(**dbconfig)
@@ -9,15 +18,14 @@ def query_db(query):
     cursor.execute(query)
     conn.commit()
     rows=cursor.fetchmany(10)
-    print(rows)
     cursor.close()
     conn.close()
     return rows
 
 def replace_inverted_comma(s):
+    """ replace because inv commas raise errors with sql storage """
     s=s.replace("'", "\\'")
     return s
-
 
 def iter_row(cursor, size=10):
     while True:
@@ -28,6 +36,7 @@ def iter_row(cursor, size=10):
             yield row
 
 def create_book_csv():
+    """Dump entire table, "book", into a csv """
     try:
         dbconfig = read_db_config()
         conn = MySQLConnection(**dbconfig)
@@ -44,7 +53,6 @@ def create_book_csv():
             new_record['id']=row[0]
             new_record['book_title'] = row[1]
             new_record['authors'] = row[2]
-
             new_record['cover'] = row[3]
             new_record['pub_year'] = row[4]
             new_record['src'] = row[5]
@@ -60,7 +68,6 @@ def create_book_csv():
 
         while row is not None:
             row = cursor.fetchone()
-
 
     finally:
         cursor.close()
@@ -118,7 +125,7 @@ def insert_book(bk):
         bk["description"] = bk["description"][:1000]
 
     if bk["pub_year"] == None:
-        print("NONE!")
+        print("Pubyear is None")
         bk["pub_year"] = 1
 
 

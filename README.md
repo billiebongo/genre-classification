@@ -1,12 +1,44 @@
 2bd:
-EDA, try out Naive bayes bag of words
+
+
+Things to do:
+
+Do proper EDA
+Scrape the numbers properly.... hm.
+after scraping batches of 10, INSERT into db
+put all the data in csv into database.
+set up the database in the server
+The number of the 
+
+
+SCRAPER:
+
+script to run scraper: indicate range of isbn to colelct on various sources: gbooks and greads
+actually need to find all the shit and store in SQL.
+
+Data cleaning
+he 
+Labelling: 
+Rely on goodreads genres
+Gbooks can be used to test data
+Consolidate data
+
+
+EDA: genres, top words in each genres
+
+misclassified
+
+Experiments:
+- bag of words wordcount
+- tfidf word count
+- tfidf svm, NVB
+-
+
 
 
 
 data set 1: set2.csv
 data set 2: need to empty DB and run scraper w better genre allocator.
-
-
 
 
 

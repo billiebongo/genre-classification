@@ -5,43 +5,8 @@
 
 # store data iin mySQL
 
-#First Run
-#START_ISBN = 1250107814
-#END_ISBN =   1250110014
+from isbn_runs import START_ISBN, END_ISBN
 
-#Second Run (actlly first 5000)
-#START_ISBN = 330508113 #first digit is actually a zero
-#END_ISBN =   330608113
-
-#THIRS RUN (first 5000 )
-#START_ISBN = 552167835
-#END_ISBN =   552267835
-
-
-#fourth run (first 5000)
-#START_ISBN = 765350386
-#END_ISBN =   765750386
-
-
-
-#fifth run
-#START_ISBN = 739382696
-#END_ISBN =   739982696
-
-#sixth run (merge 2 ranges)
-#START_ISBN = 439508184 #1505577128
-#END_ISBN =  439808184 #1505977128
-
-#seventh run
-#START_ISBN = #316219266#141345659
-#END_ISBN = 316719266#141945659
-
-#eigth run
-START_ISBN = 385376514#142406112
-END_ISBN =   385976514#142906112
-
-
-#200
 
 ISBN_LIST_FILE = 'isbn_list.txt'
 

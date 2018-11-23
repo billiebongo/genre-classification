@@ -27,10 +27,6 @@ def connect():
     finally:
         conn.close()
 
-
-
-
-
 if __name__ == '__main__':
     connect()
 

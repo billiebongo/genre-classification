@@ -3,6 +3,11 @@ import errno
 import os
 import signal
 
+"""
+Time response time of googleAPI and Goodredas.
+"""
+
+
 class TimeoutError(Exception):
     pass
 
