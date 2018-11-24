@@ -5,6 +5,7 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 import nltk
 nltk.download('stopwords')
+nltk.download('wordnet')
 
 stop_words = stopwords.words('english')
 
@@ -18,7 +19,8 @@ stop_words = stopwords.words('english')
 def clean_description(description):
 
 	try:
-		wordnet_lemmatizer = WordNetLemmatizer()
+		#wordnet_lemmatizer = WordNetLemmatizer()
+		stemmer = SnowballStemmer("english", ignore_stopwords=True)
 		tokens = word_tokenize(description) #by whitespace
 		words = [word for word in tokens if word.isalpha()] #remove punctuation
 		#lower
@@ -28,10 +30,10 @@ def clean_description(description):
 		#porterstem
 		#print(words)
 		#stemmer2 = SnowballStemmer("english", ignore_stopwords=True)
-		print(words)
-		words = [wordnet_lemmatizer.lemmatize(w) for w in words]
+
+		words = [stemmer.stem(w) for w in words]
 		stitched = " ".join(words)
-		print(stitched)
+
 	except Exception as e:
 		# empty after cleaning, err: expected string or bytes like object
 		print("issue")
