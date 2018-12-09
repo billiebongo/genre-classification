@@ -4,7 +4,7 @@ import os
 import signal
 
 """
-Time response time of googleAPI and Goodredas.
+Async time out when API response takes too long
 """
 
 

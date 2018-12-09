@@ -10,7 +10,6 @@ from goodreads.request import GoodreadsRequestException
 GOODREADS_API_KEY = "P6LBODEZy9wK0K8RnlXzA"
 GOODREADS_API_SECRET = "xNOuHajksU3PCGNGXs5TIiiZZynFOAjgxHiMEsywY"
 
-#GBOOKS_API_TOKEN = "AIzaSyDrl351Oxpu2r79QlnsWePkzrBg1re19Zw"
 GBOOKS_API_TOKEN = "AIzaSyCRsJ0Zz-Egz6hcO90TZmRfIaoU5tHigEg"
 
 
@@ -29,13 +28,14 @@ NO_COVER = "NO_COVER"
 
 
 def clean_html(raw_html):
+    """ Remove html artifacts from API data """
     cleanr = re.compile('<.*?>')
     cleantext = re.sub(cleanr, '', raw_html)
     return cleantext
 
 
 def get_genre(pop_shelves):
-    print(pop_shelves)
+    """ Returns crowdsourced genre selection """
     selected_genre = "nil"
     for pop in pop_shelves:
         if (type(pop._shelf_dict) == 'string'):
@@ -46,15 +46,15 @@ def get_genre(pop_shelves):
         for g in GENRE_LIST:
             if (str(pop) == g):
                 selected_genre = g
+                # a smarter thing to do is select the genre after fiction/non-fiction
                 if g == 'fiction' or g == 'non-fiction':
                     break
                 else:
                     return g
-
-    print("Selected: {}".format(selected_genre))
     return selected_genre
 
 def get_gbook(isbn):
+    """ gbook if goodreads dont have, but Goodreads has better genre selection """
     BASE_URL = 'https://www.googleapis.com/books/v1/volumes'
     payload = {
         'key': GBOOKS_API_TOKEN,
@@ -104,39 +104,17 @@ def get_gbook(isbn):
         return book
 
     except requests.exceptions.RequestException as e:
+        print("Requests Exception with Gbooks")
         print(e)
         return None
 
     except Exception as e:
-        print(e)
-        print(type(e))
+        print("Other errors: {}".format(e))
         return None
     return None
 
-"""
-def get_gbook_photo(isbn):
-    BASE_URL = 'https://www.googleapis.com/books/v1/volumes'
-    payload = {
-        'key': GBOOKS_API_TOKEN,
-        'q': 'isbn:' + isbn
-    }
-    r = requests.get(BASE_URL, params=payload)
-    r.raise_for_status()
-    result = r.json()
-    print(result)
-    book = {}
-    if "totalItems" in result and result['totalItems'] > 0:
-        result = result['items'][0]['volumeInfo']
-        if "imageLinks" in result:
-            print(result['imageLinks'])
-            return result['imageLinks']['thumbnail']
-        else:
-            print("both gr and gb no_cover")
-            return NO_COVER
-    return NO_COVER
-
-"""
 def get_gr(isbn):
+    """ Parse Json data from Goodreads API """
     try:
         gr = gc.book(isbn=isbn)
         book = {}
@@ -161,8 +139,6 @@ def get_gr(isbn):
                 book['isbn13'] = -1
         book['cover'] = 'l'.join(gr.image_url.rsplit('m', 1))
 
-        for items in gr.authors:
-            print(items)
         book['authors'] = str(gr.authors)#[1:-1].split(', ')
         book['pub_year'] = gr.publication_date[2]
         if gr.description:
@@ -173,29 +149,19 @@ def get_gr(isbn):
         # print(gr.popular_shelves)
         try:
             if gr.popular_shelves:
-
-                print("printing:" + str(gr.popular_shelves))
-
                 book['genre'] = get_genre(gr.popular_shelves)
             else:
                 book['genre'] = "nil"
         except:
             book['genre'] = "nil"
-        print(book['genre'])
 
     #raised if connectionError or isbn cannot be found
     except (GoodreadsRequestException) as e:
         """
-        if GR fails, try GBooks
+        Log in nohup.out API scraping errors
         """
-        print("goodreads exception error")
-
-        #book = get_gbook(isbn)
-
-        #if book != None:
-        #    print("here1")
-        #    book['src'] = "gb"
-        #    return book
+        print("******* ERROR ********")
+        print("ISBN {} has issue: {}".format(isbn, e))
 
         return None
     except (KeyError) as e:  # if gr dies

@@ -1,7 +1,8 @@
 from mysql.connector import MySQLConnection, Error
 from python_mysql_dbconfig import read_db_config
 import pandas as pd
-
+import pymysql
+import csv
 """
 Store scraped data in database
 Functions:
@@ -9,7 +10,10 @@ Functions:
 - insert a row into the data
 - query all rows and output a csv
 """
-
+DB_USER='root'
+DB_PORT=3306
+DB_NAME='genre_nlp'
+DB_PASSWORD='password'
 
 def query_db(query):
     dbconfig = read_db_config()
@@ -37,6 +41,7 @@ def iter_row(cursor, size=10):
 
 def create_book_csv():
     """Dump entire table, "book", into a csv """
+    # Note: something is broken, output csv is missing?
     try:
         dbconfig = read_db_config()
         conn = MySQLConnection(**dbconfig)
@@ -64,7 +69,7 @@ def create_book_csv():
 
         df = pd.DataFrame(ls,columns=['id','book_title','authors',
                                    'cover', 'pub_year','src','genre','description'])
-        df.to_csv('set3.csv')
+        df.to_csv('data_Dec.csv')
 
         while row is not None:
             row = cursor.fetchone()
@@ -72,6 +77,18 @@ def create_book_csv():
     finally:
         cursor.close()
         conn.close()
+
+def dump_mysql_to_csv(filename):
+    conn = pymysql.connect(port=DB_PORT, user=DB_USER, database=DB_NAME, password=DB_PASSWORD)
+    cursor = conn.cursor()
+    query = 'select * from book;'
+    cursor.execute(query)
+    with open(filename, "w") as outfile:
+        writer = csv.writer(outfile, quoting=csv.QUOTE_NONNUMERIC)
+        writer.writerow(col[0] for col in cursor.description)
+        for row in cursor:
+            writer.writerow(row)
+    return
 
 
 def query_with_fetchmany():
@@ -121,8 +138,8 @@ def insert_book(bk):
     #args = (title, isbn)
     #bk["description"] bk["book_title"] bk["authors"]
 
-    if len(bk["description"])>1000:
-        bk["description"] = bk["description"][:1000]
+    if len(bk["description"])>1500:
+        bk["description"] = bk["description"][:1500]
 
     if bk["pub_year"] == None:
         print("Pubyear is None")

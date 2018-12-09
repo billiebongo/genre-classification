@@ -8,6 +8,7 @@ import mysql.connector
 from mysql.connector import Error
 
 DATABASE_NAME = 'genre_nlp'
+DB_PW = 'password'
 
 def connect():
     """ Connect to MySQL database """
@@ -15,9 +16,8 @@ def connect():
         conn = mysql.connector.connect(host='localhost',
                                        database= DATABASE_NAME,
                                        user='root',port = 3306,
-                                       password='password')
+                                       password=DB_PW)
 
-        print(conn.is_connected())
         if conn.is_connected():
             print('Connected to MySQL database')
 

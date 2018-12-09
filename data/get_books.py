@@ -7,14 +7,14 @@ import time
 from timeout import timeout
 from database_commands import insert_book
 """
-call API(GR, GBook, NLB) and store in database: book_title, authors, description(300), cover (can be null), pub_year, src
+call API(GR, GBook, NLB) and store in database: book_title, 
+authors, description(300), cover (can be null), pub_year, src
 genre
-
-
 
 """
 
 TIMEOUT = 15
+
 """
 #def store_books_in_csv(bks):
 #    finish scraping a list of books and put in dictionary then create csv
@@ -25,24 +25,25 @@ TIMEOUT = 15
         dict_writer.writerows(bks)
     return
 """
+
 @timeout(TIMEOUT)
 def retrieve_book(isbn):
     """
-    wrapper function for timing out actlly
+    wrapper function for timing out when requesting data from GR API
     """
-
     return get_gr(isbn)
 
 
 def get_books():
     """
-    return list, bks, of dictionaries
+    request book data and INSERT into mysql
     """
     isbn_list = open_isbn_file()
 
     i, j, t = 0, 0, 0 # i: valid, j: invalid, t: timeout count
 
     for isbn in isbn_list:
+        # this means cant choose ISBNs with >2 zeros in front
         if len(str(isbn))==8:
             isbn = "00"+str(isbn)
         elif len(str(isbn)) == 9:
@@ -50,17 +51,18 @@ def get_books():
         elif len(str(isbn)) == 10:
             isbn=str(isbn)
         else:
+            print(isbn)
             raise
         print("Trying isbn: {}".format(isbn))
 
         try:
+            print(isbn)
             bk=retrieve_book(isbn)
         except Exception as e:
             print(e)
-            print("timeout likely {}".format(isbn))
-            t+=1
+            t+=1 # Error likely caused by timeout
             continue
-        time.sleep(1) # might be enough for not being banned
+        time.sleep(1) # API limit 1 per second
 
         if not bk:
             j += 1 #book not found
@@ -77,7 +79,5 @@ def get_books():
     return
 
 if __name__ == '__main__':
-    print("============Run 6============")
-
     get_books()
 
