@@ -14,7 +14,6 @@ Script contains some textfile helper functions
 
 ISBN_LIST_FILE = 'isbn_list.txt'
 
-#currently fixed for 9 digits
 def check_digit(number):
     try:
         numberreal = number
@@ -57,7 +56,6 @@ def check_digit(number):
 
 
 def write_to_file(validated_isbn):
-    print(validated_isbn)
     with open( ISBN_LIST_FILE, 'w') as f:
         f.write(','.join(validated_isbn))
     f.close()
@@ -82,7 +80,7 @@ def generate_isbn_list_file():
         print(len(validated_isbn))
     write_to_file(validated_isbn)
 
-    print("Num of ISBNs:asds"+str(len(validated_isbn)))
+    print("Num of ISBNs: "+str(len(validated_isbn)))
 
 
 if __name__ == '__main__':

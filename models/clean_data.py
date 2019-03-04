@@ -9,12 +9,7 @@ nltk.download('wordnet')
 
 stop_words = stopwords.words('english')
 
-
-#create the json and post
-
-
-
-
+#stopw words: https://www.ranks.nl/stopwords
 
 def clean_description(description):
 
@@ -23,12 +18,8 @@ def clean_description(description):
 		stemmer = SnowballStemmer("english", ignore_stopwords=True)
 		tokens = word_tokenize(description) #by whitespace
 		words = [word for word in tokens if word.isalpha()] #remove punctuation
-		#lower
 		words = [word.lower() for word in words]
-		#stopw words: https://www.ranks.nl/stopwords
 		words = [w for w in words if not w in stop_words]
-		#porterstem
-		#print(words)
 		#stemmer2 = SnowballStemmer("english", ignore_stopwords=True)
 
 		words = [stemmer.stem(w) for w in words]
@@ -36,8 +27,7 @@ def clean_description(description):
 
 	except Exception as e:
 		# empty after cleaning, err: expected string or bytes like object
-		print("issue")
-		print(e)
+		
 		return ""
 	return stitched
 

@@ -10,10 +10,10 @@ Functions:
 - insert a row into the data
 - query all rows and output a csv
 """
-DB_USER='root'
-DB_PORT=3306
-DB_NAME='genre_nlp'
-DB_PASSWORD='password'
+DB_USER = 'root'
+DB_PORT = 3306
+DB_NAME = 'genre_nlp'
+DB_PASSWORD = 'password'
 
 def query_db(query):
     dbconfig = read_db_config()
@@ -21,14 +21,14 @@ def query_db(query):
     cursor = conn.cursor()
     cursor.execute(query)
     conn.commit()
-    rows=cursor.fetchmany(10)
+    rows = cursor.fetchmany(10)
     cursor.close()
     conn.close()
     return rows
 
 def replace_inverted_comma(s):
     """ replace because inv commas raise errors with sql storage """
-    s=s.replace("'", "\\'")
+    s = s.replace("'", "\\'")
     return s
 
 def iter_row(cursor, size=10):
@@ -94,7 +94,6 @@ def dump_mysql_to_csv(filename):
 def query_with_fetchmany():
     try:
         query_db("SELECT book_title FROM book")
-
         for row in iter_row(cursor, 10):
             #row is type tuple
             print(row)
@@ -133,10 +132,6 @@ def update_book(book_id, title):
         conn.close()
 
 def insert_book(bk):
-    #query = "INSERT INTO books(title,isbn) " \
-     #       "VALUES(%s,%s)"
-    #args = (title, isbn)
-    #bk["description"] bk["book_title"] bk["authors"]
 
     if len(bk["description"])>1500:
         bk["description"] = bk["description"][:1500]
@@ -144,9 +139,6 @@ def insert_book(bk):
     if bk["pub_year"] == None:
         print("Pubyear is None")
         bk["pub_year"] = 1
-
-
-
     data_list = [ replace_inverted_comma(bk["book_title"]), replace_inverted_comma(bk["authors"]), replace_inverted_comma(bk["description"]), replace_inverted_comma(bk["cover"]), bk["pub_year"], bk["src"], bk["genre"]]
 
     try:
@@ -159,12 +151,6 @@ def insert_book(bk):
             # row is type tuple
             print(row)
 
-
-
-        #if cursor.lastrowid:
-        #    print('last insert id', cursor.lastrowid)
-        #else:
-        #    print('last insert id not found')
     except Error as e:
         print(e)
     return
@@ -185,13 +171,11 @@ def delete_books(book_ids):
         cursor = conn.cursor()
         print(query)
         cursor.execute(query)#, book_ids)
-        print("sss")
         print(cursor)
         # accept the change`
         conn.commit()
 
     except Error as error:
-        print("er")
         print(error)
 
     finally:
@@ -204,8 +188,7 @@ def convert_db_to_csv(db):
     pass
 
 if __name__ == '__main__':
-    #bk = {"book_title":"derp", "authors":"lek", "description":"d", "cover":"meh","pub_year":6789, "src":"gr", "genre":"art"}
-
-    #print(replace_inverted_comma("i'm fine"))
     create_book_csv()
+
+    #bk = {"book_title":"derp", "authors":"lek", "description":"d", "cover":"meh","pub_year":6789, "src":"gr", "genre":"art"}
     #store_book(bk)
